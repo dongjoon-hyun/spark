@@ -113,7 +113,7 @@ object FilterPushdownBenchmark extends SqlBasedBenchmark {
       title: String,
       whereExpr: String,
       selectExpr: String = "*"): Unit = {
-    val benchmark = new Benchmark(title, values, minNumIters = 5, output = output)
+    val benchmark = new Benchmark(title, values, minNumIters = 2, output = output)
 
     Seq(false, true).foreach { pushDownEnabled =>
       val name = s"Parquet Vectorized ${if (pushDownEnabled) s"(Pushdown)" else ""}"
