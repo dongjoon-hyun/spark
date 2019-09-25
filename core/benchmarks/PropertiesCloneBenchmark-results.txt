@@ -2,39 +2,39 @@
 Properties Cloning
 ================================================================================================
 
-Java HotSpot(TM) 64-Bit Server VM 1.8.0_131-b11 on Mac OS X 10.14.6
-Intel(R) Core(TM) i9-8950HK CPU @ 2.90GHz
+OpenJDK 64-Bit Server VM 1.8.0_222-b10 on Linux 3.10.0-862.3.2.el7.x86_64
+Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz
 Empty Properties:                         Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-SerializationUtils.clone                              0              0           0          0.2        4184.0       1.0X
-Utils.cloneProperties                                 0              0           0         55.6          18.0     232.4X
+SerializationUtils.clone                              0              0           0          0.1       13383.0       1.0X
+Utils.cloneProperties                                 0              0           0          2.0         510.0      26.2X
 
-Java HotSpot(TM) 64-Bit Server VM 1.8.0_131-b11 on Mac OS X 10.14.6
-Intel(R) Core(TM) i9-8950HK CPU @ 2.90GHz
+OpenJDK 64-Bit Server VM 1.8.0_222-b10 on Linux 3.10.0-862.3.2.el7.x86_64
+Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz
 System Properties:                        Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-SerializationUtils.clone                              0              0           0          0.0      107612.0       1.0X
-Utils.cloneProperties                                 0              0           0          1.0         962.0     111.9X
+SerializationUtils.clone                              0              0           0          0.0      221647.0       1.0X
+Utils.cloneProperties                                 0              0           0          0.4        2243.0      98.8X
 
-Java HotSpot(TM) 64-Bit Server VM 1.8.0_131-b11 on Mac OS X 10.14.6
-Intel(R) Core(TM) i9-8950HK CPU @ 2.90GHz
+OpenJDK 64-Bit Server VM 1.8.0_222-b10 on Linux 3.10.0-862.3.2.el7.x86_64
+Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz
 Small Properties:                         Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-SerializationUtils.clone                              0              0           0          0.0      330210.0       1.0X
-Utils.cloneProperties                                 0              0           0          0.9        1082.0     305.2X
+SerializationUtils.clone                              1              1           0          0.0      734259.0       1.0X
+Utils.cloneProperties                                 0              0           0          0.4        2840.0     258.5X
 
-Java HotSpot(TM) 64-Bit Server VM 1.8.0_131-b11 on Mac OS X 10.14.6
-Intel(R) Core(TM) i9-8950HK CPU @ 2.90GHz
+OpenJDK 64-Bit Server VM 1.8.0_222-b10 on Linux 3.10.0-862.3.2.el7.x86_64
+Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz
 Medium Properties:                        Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-SerializationUtils.clone                              1              2           0          0.0     1336301.0       1.0X
-Utils.cloneProperties                                 0              0           0          0.2        5456.0     244.9X
+SerializationUtils.clone                              3              3           0          0.0     2986548.0       1.0X
+Utils.cloneProperties                                 0              0           0          0.1       11573.0     258.1X
 
-Java HotSpot(TM) 64-Bit Server VM 1.8.0_131-b11 on Mac OS X 10.14.6
-Intel(R) Core(TM) i9-8950HK CPU @ 2.90GHz
+OpenJDK 64-Bit Server VM 1.8.0_222-b10 on Linux 3.10.0-862.3.2.el7.x86_64
+Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz
 Large Properties:                         Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-SerializationUtils.clone                              3              3           0          0.0     2634336.0       1.0X
-Utils.cloneProperties                                 0              0           0          0.1       10822.0     243.4X
+SerializationUtils.clone                              6              6           0          0.0     5802848.0       1.0X
+Utils.cloneProperties                                 0              0           0          0.0       22348.0     259.7X
 
 

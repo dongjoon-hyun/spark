@@ -6,11 +6,11 @@ OpenJDK 64-Bit Server VM 1.8.0_222-b10 on Linux 3.10.0-862.3.2.el7.x86_64
 Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz
 hive udaf vs spark af:                    Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-hive udaf w/o group by                             6741           6759          22          0.0      102864.5       1.0X
-spark af w/o group by                                56             66           9          1.2         851.6     120.8X
-hive udaf w/ group by                              4610           4642          25          0.0       70350.3       1.5X
-spark af w/ group by w/o fallback                    60             67           8          1.1         916.7     112.2X
-spark af w/ group by w/ fallback                    135            144           9          0.5        2065.6      49.8X
+hive udaf w/o group by                             6539           6584          45          0.0       99772.6       1.0X
+spark af w/o group by                                58             70          10          1.1         887.2     112.5X
+hive udaf w/ group by                              4530           4542          14          0.0       69123.9       1.4X
+spark af w/ group by w/o fallback                    58             65           8          1.1         892.0     111.9X
+spark af w/ group by w/ fallback                    136            151          41          0.5        2076.8      48.0X
 
 
 ================================================================================================
@@ -21,11 +21,11 @@ OpenJDK 64-Bit Server VM 1.8.0_222-b10 on Linux 3.10.0-862.3.2.el7.x86_64
 Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz
 object agg v.s. sort agg:                 Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-sort agg w/ group by                              41568          41894         461          2.5         396.4       1.0X
-object agg w/ group by w/o fallback               10314          10494         149         10.2          98.4       4.0X
-object agg w/ group by w/ fallback                26720          26951         326          3.9         254.8       1.6X
-sort agg w/o group by                              6638           6681          38         15.8          63.3       6.3X
-object agg w/o group by w/o fallback               5665           5706          30         18.5          54.0       7.3X
+sort agg w/ group by                              45637          45637           0          2.3         435.2       1.0X
+object agg w/ group by w/o fallback               10125          10216          87         10.4          96.6       4.5X
+object agg w/ group by w/ fallback                27123          27624         709          3.9         258.7       1.7X
+sort agg w/o group by                              6369           6437          62         16.5          60.7       7.2X
+object agg w/o group by w/o fallback               5516           5547          30         19.0          52.6       8.3X
 
 
 ================================================================================================
@@ -36,10 +36,10 @@ OpenJDK 64-Bit Server VM 1.8.0_222-b10 on Linux 3.10.0-862.3.2.el7.x86_64
 Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz
 object agg v.s. sort agg:                 Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-sort agg w/ group by                                794            862          33          2.6         378.8       1.0X
-object agg w/ group by w/o fallback                 605            622          10          3.5         288.5       1.3X
-object agg w/ group by w/ fallback                  840            860          15          2.5         400.5       0.9X
-sort agg w/o group by                               555            570          12          3.8         264.6       1.4X
-object agg w/o group by w/o fallback                544            562          12          3.9         259.6       1.5X
+sort agg w/ group by                                785            842          36          2.7         374.5       1.0X
+object agg w/ group by w/o fallback                 577            598          10          3.6         275.4       1.4X
+object agg w/ group by w/ fallback                  825            845          17          2.5         393.4       1.0X
+sort agg w/o group by                               516            535           9          4.1         246.0       1.5X
+object agg w/o group by w/o fallback                528            549          31          4.0         251.6       1.5X
 
 
