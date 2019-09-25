@@ -1,0 +1,60 @@
+================================================================================================
+Parquet writer benchmark
+================================================================================================
+
+OpenJDK 64-Bit Server VM 11.0.4+11-LTS on Linux 3.10.0-862.3.2.el7.x86_64
+Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz
+Parquet writer benchmark:                 Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
+------------------------------------------------------------------------------------------------------------------------
+Output Single Int Column                           3094           3144          71          5.1         196.7       1.0X
+Output Single Double Column                        3001           3094         132          5.2         190.8       1.0X
+Output Int and String Column                       8636           8732         137          1.8         549.0       0.4X
+Output Partitions                                  7246           7437         271          2.2         460.7       0.4X
+Output Buckets                                     9130           9577         633          1.7         580.4       0.3X
+
+
+================================================================================================
+ORC writer benchmark
+================================================================================================
+
+OpenJDK 64-Bit Server VM 11.0.4+11-LTS on Linux 3.10.0-862.3.2.el7.x86_64
+Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz
+ORC writer benchmark:                     Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
+------------------------------------------------------------------------------------------------------------------------
+Output Single Int Column                           2038           2041           5          7.7         129.6       1.0X
+Output Single Double Column                        2407           2457          71          6.5         153.1       0.8X
+Output Int and String Column                       7106           7221         162          2.2         451.8       0.3X
+Output Partitions                                  5189           5313         174          3.0         329.9       0.4X
+Output Buckets                                     7355           7425         100          2.1         467.6       0.3X
+
+
+================================================================================================
+JSON writer benchmark
+================================================================================================
+
+OpenJDK 64-Bit Server VM 11.0.4+11-LTS on Linux 3.10.0-862.3.2.el7.x86_64
+Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz
+JSON writer benchmark:                    Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
+------------------------------------------------------------------------------------------------------------------------
+Output Single Int Column                           3042           3055          18          5.2         193.4       1.0X
+Output Single Double Column                        4695           6091        1974          3.4         298.5       0.6X
+Output Int and String Column                       8942          10060        1581          1.8         568.5       0.3X
+Output Partitions                                  6177           6181           6          2.5         392.7       0.5X
+Output Buckets                                    11504          11712         295          1.4         731.4       0.3X
+
+
+================================================================================================
+CSV writer benchmark
+================================================================================================
+
+OpenJDK 64-Bit Server VM 11.0.4+11-LTS on Linux 3.10.0-862.3.2.el7.x86_64
+Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz
+CSV writer benchmark:                     Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
+------------------------------------------------------------------------------------------------------------------------
+Output Single Int Column                           3950           3975          36          4.0         251.1       1.0X
+Output Single Double Column                        4876           4937          85          3.2         310.0       0.8X
+Output Int and String Column                       8089           8382         413          1.9         514.3       0.5X
+Output Partitions                                  7621           7964         485          2.1         484.5       0.5X
+Output Buckets                                    10015          10207         272          1.6         636.7       0.4X
+
+
