@@ -1,0 +1,77 @@
+================================================================================================
+Benchmark for MurMurHash 3 and xxHash64
+================================================================================================
+
+OpenJDK 64-Bit Server VM 11.0.4+11-LTS on Linux 3.10.0-862.3.2.el7.x86_64
+Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz
+Hash byte arrays with length 8:           Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
+------------------------------------------------------------------------------------------------------------------------
+Murmur3_x86_32                                       18             18           0        116.2           8.6       1.0X
+xxHash 64-bit                                        18             18           0        118.8           8.4       1.0X
+HiveHasher                                           18             18           0        118.4           8.4       1.0X
+
+OpenJDK 64-Bit Server VM 11.0.4+11-LTS on Linux 3.10.0-862.3.2.el7.x86_64
+Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz
+Hash byte arrays with length 16:          Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
+------------------------------------------------------------------------------------------------------------------------
+Murmur3_x86_32                                       25             25           0         84.4          11.8       1.0X
+xxHash 64-bit                                        23             23           0         91.5          10.9       1.1X
+HiveHasher                                           33             33           0         63.5          15.7       0.8X
+
+OpenJDK 64-Bit Server VM 11.0.4+11-LTS on Linux 3.10.0-862.3.2.el7.x86_64
+Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz
+Hash byte arrays with length 24:          Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
+------------------------------------------------------------------------------------------------------------------------
+Murmur3_x86_32                                       33             33           0         64.2          15.6       1.0X
+xxHash 64-bit                                        25             25           0         84.5          11.8       1.3X
+HiveHasher                                           50             50           0         42.1          23.8       0.7X
+
+OpenJDK 64-Bit Server VM 11.0.4+11-LTS on Linux 3.10.0-862.3.2.el7.x86_64
+Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz
+Hash byte arrays with length 31:          Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
+------------------------------------------------------------------------------------------------------------------------
+Murmur3_x86_32                                       51             51           0         40.9          24.4       1.0X
+xxHash 64-bit                                        44             44           1         47.8          20.9       1.2X
+HiveHasher                                           65             65           0         32.3          31.0       0.8X
+
+OpenJDK 64-Bit Server VM 11.0.4+11-LTS on Linux 3.10.0-862.3.2.el7.x86_64
+Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz
+Hash byte arrays with length 95:          Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
+------------------------------------------------------------------------------------------------------------------------
+Murmur3_x86_32                                      115            115           0         18.2          54.8       1.0X
+xxHash 64-bit                                        83             83           0         25.2          39.6       1.4X
+HiveHasher                                          215            216           0          9.7         102.8       0.5X
+
+OpenJDK 64-Bit Server VM 11.0.4+11-LTS on Linux 3.10.0-862.3.2.el7.x86_64
+Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz
+Hash byte arrays with length 287:         Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
+------------------------------------------------------------------------------------------------------------------------
+Murmur3_x86_32                                      325            325           0          6.4         155.1       1.0X
+xxHash 64-bit                                       137            137           0         15.4          65.1       2.4X
+HiveHasher                                          660            660           0          3.2         314.5       0.5X
+
+OpenJDK 64-Bit Server VM 11.0.4+11-LTS on Linux 3.10.0-862.3.2.el7.x86_64
+Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz
+Hash byte arrays with length 1055:        Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
+------------------------------------------------------------------------------------------------------------------------
+Murmur3_x86_32                                     1137           1137           0          1.8         542.1       1.0X
+xxHash 64-bit                                       360            360           0          5.8         171.8       3.2X
+HiveHasher                                         2426           2426           0          0.9        1156.8       0.5X
+
+OpenJDK 64-Bit Server VM 11.0.4+11-LTS on Linux 3.10.0-862.3.2.el7.x86_64
+Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz
+Hash byte arrays with length 2079:        Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
+------------------------------------------------------------------------------------------------------------------------
+Murmur3_x86_32                                     2220           2220           0          0.9        1058.6       1.0X
+xxHash 64-bit                                       600            600           0          3.5         286.0       3.7X
+HiveHasher                                         4781           4781           0          0.4        2279.8       0.5X
+
+OpenJDK 64-Bit Server VM 11.0.4+11-LTS on Linux 3.10.0-862.3.2.el7.x86_64
+Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz
+Hash byte arrays with length 8223:        Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
+------------------------------------------------------------------------------------------------------------------------
+Murmur3_x86_32                                     8745           8748           5          0.2        4169.7       1.0X
+xxHash 64-bit                                      2020           2022           2          1.0         963.4       4.3X
+HiveHasher                                        18929          18931           2          0.1        9026.2       0.5X
+
+
