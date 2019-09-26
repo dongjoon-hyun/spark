@@ -1,0 +1,22 @@
+OpenJDK 64-Bit Server VM 11.0.4+11-LTS on Linux 3.10.0-862.3.2.el7.x86_64
+Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz
+make_date():                              Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
+------------------------------------------------------------------------------------------------------------------------
+prepare make_date()                                3623           3708         118         27.6          36.2       1.0X
+make_date(2019, 9, 16)                             2761           2961         335         36.2          27.6       1.3X
+make_date(*, *, *)                                 5025           5235         186         19.9          50.3       0.7X
+
+OpenJDK 64-Bit Server VM 11.0.4+11-LTS on Linux 3.10.0-862.3.2.el7.x86_64
+Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz
+make_timestamp():                         Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
+------------------------------------------------------------------------------------------------------------------------
+prepare make_timestamp()                           3757           3876         149          0.3        3756.6       1.0X
+make_timestamp(2019, 1, 2, 3, 4, 50.123456)            119            127          10          8.4         119.2      31.5X
+make_timestamp(2019, 1, 2, 3, 4, 60.000000)             86             89           4         11.7          85.6      43.9X
+make_timestamp(2019, 12, 31, 23, 59, 60.00)             76             78           2         13.1          76.3      49.2X
+make_timestamp(*, *, *, 3, 4, 50.123456)            300            319          17          3.3         299.6      12.5X
+make_timestamp(*, *, *, *, *, 0)                    291            322          42          3.4         291.4      12.9X
+make_timestamp(*, *, *, *, *, 60.0)                 293            303           9          3.4         292.5      12.8X
+make_timestamp(2019, 1, 2, *, *, *)                4066           4080          21          0.2        4065.7       0.9X
+make_timestamp(*, *, *, *, *, *)                   4087           4096          14          0.2        4087.1       0.9X
+

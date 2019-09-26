@@ -8,9 +8,9 @@ do
     do
         NAME=$(echo $j | sed 's/^.*scala\///g' | sed 's/\//./g' | sed 's/.scala//g')
         if [ $NAME == "org.apache.spark.sql.execution.ExternalAppendOnlyUnsafeRowArrayBenchmark" ]; then
-            SPARK_GENERATE_BENCHMARK_FILES=1 build/sbt ";project sql;set javaOptions in Test += \"-Dspark.memory.debugFill=false\";${modules[$MODULE]}/test:runMain $NAME"
+            echo SPARK_GENERATE_BENCHMARK_FILES=1 build/sbt ";project sql;set javaOptions in Test += \"-Dspark.memory.debugFill=false\";${modules[$MODULE]}/test:runMain $NAME"
         else
-            SPARK_GENERATE_BENCHMARK_FILES=1 build/sbt "${modules[$MODULE]}/test:runMain $NAME"
+            echo SPARK_GENERATE_BENCHMARK_FILES=1 build/sbt "${modules[$MODULE]}/test:runMain $NAME"
         fi
     done
 done

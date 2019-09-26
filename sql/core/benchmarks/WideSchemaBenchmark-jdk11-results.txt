@@ -1,0 +1,39 @@
+================================================================================================
+parsing large select expressions
+================================================================================================
+
+OpenJDK 64-Bit Server VM 11.0.4+11-LTS on Linux 3.10.0-862.3.2.el7.x86_64
+Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz
+parsing large select:                     Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
+------------------------------------------------------------------------------------------------------------------------
+1 select expressions                                  9             17           8          0.0     9195176.0       1.0X
+100 select expressions                               16             25           4          0.0    16443511.0       0.6X
+2500 select expressions                             207            209           4          0.0   207020189.0       0.0X
+
+
+================================================================================================
+many column field read and write
+================================================================================================
+
+OpenJDK 64-Bit Server VM 11.0.4+11-LTS on Linux 3.10.0-862.3.2.el7.x86_64
+Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz
+many column field r/w:                    Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
+------------------------------------------------------------------------------------------------------------------------
+1 cols x 100000 rows (read in-mem)                   53             73          12          1.9         533.5       1.0X
+1 cols x 100000 rows (exec in-mem)                   60             87          16          1.7         600.2       0.9X
+1 cols x 100000 rows (read parquet)                  90            107          11          1.1         896.3       0.6X
+1 cols x 100000 rows (write parquet)                247            267          30          0.4        2467.6       0.2X
+100 cols x 1000 rows (read in-mem)                   62             70          13          1.6         618.3       0.9X
+100 cols x 1000 rows (exec in-mem)                   84             90           9          1.2         842.6       0.6X
+100 cols x 1000 rows (read parquet)                  87            106          18          1.2         866.6       0.6X
+100 cols x 1000 rows (write parquet)                262            272          14          0.4        2619.3       0.2X
+2500 cols x 40 rows (read in-mem)                   525            555          26          0.2        5246.0       0.1X
+2500 cols x 40 rows (exec in-mem)                   920            939          17          0.1        9199.5       0.1X
+2500 cols x 40 rows (read parquet)                  402            413          12          0.2        4017.0       0.1X
+2500 cols x 40 rows (write parquet)                 630            658          21          0.2        6304.0       0.1X
+
+
+================================================================================================
+wide shallowly nested struct field read and write
+================================================================================================
+
