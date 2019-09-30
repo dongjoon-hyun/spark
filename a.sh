@@ -2,7 +2,7 @@
 
 function run {
     export JAVA_HOME=$(dirname $(dirname $(readlink $(readlink $(which javac)))))
-    declare -A modules=( ["external/avro"]="avro" )
+    declare -A modules=( ["sql/catalyst"]="catalyst" )
     for MODULE in "${!modules[@]}"
     do
         for j in $(for i in $(find "$MODULE" -name "*Benchmark-results.txt" | sort); do find . -name $(basename $i | sed 's/-results.txt//').scala; done)
