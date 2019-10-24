@@ -21,7 +21,7 @@
 #
 #     Run a single benchmark:
 #        dev/dev/benchmark.sh org.apache.spark.serializer.KryoBenchmark
-#        dev/dev/benchmark.sh KryoBenchmark   # When name are unique
+#        dev/dev/benchmark.sh KryoBenchmark   # In case of unique name, skip the package prefix
 #
 #     Run all benchmarks:
 #        dev/dev/benchmark.sh
