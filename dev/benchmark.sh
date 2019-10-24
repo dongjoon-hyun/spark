@@ -16,7 +16,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# A utility script to run benchmarks for both JDK8/11.
+# A utility script to rerun benchmarks for both JDK8/11.
+# 
+# This script looks up the existing generated result files.
+# If the benchmark needs a special option like `-Dspark.memory.debugFill=false`,
+# it should be added here.
+#
 # Usage:
 #
 #     Run a single benchmark:
@@ -32,7 +37,7 @@ set -e
 FWDIR="$(cd "`dirname "$0"`"/..; pwd)"
 cd "$FWDIR"
 
-# By default, this will match benchmarks.
+# By default, this will match all benchmarks.
 BENCHMARK_NAME=${1:-Benchmark}
 
 if [[ -f /etc/os-release ]]; then
@@ -106,14 +111,15 @@ function run_benchmark {
 
     for MODULE in "${!modules[@]}"
     do
-        for j in $(for i in $(find "$MODULE" -name "*Benchmark-results.txt" | sort); do find . -name $(basename $i | sed 's/-results.txt//').scala; done)
+        for j in $(for i in $(find . -name "*Benchmark-results.txt" | sort); do find . -name $(basename $i | sed 's/-results.txt//').scala; done)
         do
             NAME=$(echo $j | sed 's/^.*scala\///g' | sed 's/\//./g' | sed 's/.scala//g')
+            echo $NAME
             if [[ $NAME == *"$1"* ]]; then
                 if [ $NAME == "org.apache.spark.sql.execution.ExternalAppendOnlyUnsafeRowArrayBenchmark" ]; then
-                    SPARK_GENERATE_BENCHMARK_FILES=1 build/sbt ";project sql;set javaOptions in Test += \"-Dspark.memory.debugFill=false\";${modules[$MODULE]}/test:runMain $NAME"
+                    echo SPARK_GENERATE_BENCHMARK_FILES=1 build/sbt ";project sql;set javaOptions in Test += \"-Dspark.memory.debugFill=false\";${modules[$MODULE]}/test:runMain $NAME"
                 else
-                    SPARK_GENERATE_BENCHMARK_FILES=1 build/sbt "${modules[$MODULE]}/test:runMain $NAME"
+                    echo SPARK_GENERATE_BENCHMARK_FILES=1 build/sbt "${modules[$MODULE]}/test:runMain $NAME"
                 fi
             fi
         done
