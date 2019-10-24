@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# Run benchmark scripts for both JDK8/11.
+# A utility script to run benchmarks for both JDK8/11.
 # Usage:
 #
 #     Run a single benchmark:
