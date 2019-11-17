@@ -84,4 +84,4 @@ jobs:
       run: |
         gem install jekyll jekyll-redirect-from rouge
         cd docs
-        SKIP_API=1 jekyll build
+        SKIP_PYTHONDOC=1 SKIP_RDOC=1 SKIP_SQLDOC=1 jekyll build
