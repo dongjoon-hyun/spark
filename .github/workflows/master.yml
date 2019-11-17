@@ -80,8 +80,13 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - uses: actions/setup-ruby@v1
+    - uses: actions/setup-python@v1
+      with:
+        python-version: '3.x'
+        architecture: 'x64'
     - name: Generate documentation
       run: |
         gem install jekyll jekyll-redirect-from rouge
+        pip install sphinx pypandoc mkdocs
         cd docs
-        jekyll build
+        SKIP_RDOC=1 jekyll build
