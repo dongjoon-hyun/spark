@@ -72,3 +72,16 @@ jobs:
       run: ./dev/check-license
     - name: Dependencies
       run: ./dev/test-dependencies.sh
+
+
+  doc:
+    runs-on: ubuntu-latest
+    name: Documentation
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions/setup-ruby@v1
+    - name: Generate documentation
+      run: |
+        gem install jekyll jekyll-redirect-from rouge
+        cd docs
+        SKIP_API=1 jekyll build
