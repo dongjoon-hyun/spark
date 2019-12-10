@@ -118,3 +118,22 @@ jobs:
       run: ./R/install-dev.sh
     - name: lint-r
       run: ./dev/lint-r
+
+  test-python:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: [ '2.7', '3.6', '3.7', '3.8' ]
+    name: Test PySpark - Python${{ matrix.python }}
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions/setup-java@v1
+      with:
+        java-version: '11'
+    - uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python }}
+        architecture: 'x64'
+    - name: Python
+      run: |
+        python/run-tests.py --python-executables python${{ matrix.python }}
