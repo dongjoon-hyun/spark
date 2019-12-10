@@ -136,4 +136,5 @@ jobs:
         architecture: 'x64'
     - name: Python
       run: |
+        build/sbt package
         python/run-tests.py --python-executables python${{ matrix.python }}
