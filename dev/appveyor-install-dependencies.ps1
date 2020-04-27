@@ -70,8 +70,8 @@ Function InstallRtools {
   Else {
     $gccPath = $env:GCC_PATH
   }
-  $env:PATH = $RtoolsDrive + '\Rtools\bin;' + $RtoolsDrive + '\Rtools\MinGW\bin;' + $RtoolsDrive + '\Rtools\' + $gccPath + '\bin;' + $env:PATH
-  $env:BINPREF=$RtoolsDrive + '/Rtools/mingw_$(WIN)/bin/'
+  $env:PATH = $RtoolsDrive + '\Rtools40\bin;' + $RtoolsDrive + '\Rtools40\MinGW$(WIN)\bin;' + $RtoolsDrive + '\Rtools40\' + $gccPath + '\bin;' + $env:PATH
+  $env:BINPREF=$RtoolsDrive + '/Rtools40/mingw$(WIN)/bin/'
 }
 
 # create tools directory outside of Spark directory
