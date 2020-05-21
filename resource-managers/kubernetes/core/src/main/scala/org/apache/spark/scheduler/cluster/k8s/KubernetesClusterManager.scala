@@ -26,6 +26,7 @@ import org.apache.spark.SparkContext
 import org.apache.spark.deploy.k8s.{KubernetesConf, KubernetesUtils, SparkKubernetesClientFactory}
 import org.apache.spark.deploy.k8s.Config._
 import org.apache.spark.deploy.k8s.Constants._
+import org.apache.spark.deploy.k8s.submit.KubernetesClientApplication._
 import org.apache.spark.internal.Logging
 import org.apache.spark.scheduler.{ExternalClusterManager, SchedulerBackend, TaskScheduler, TaskSchedulerImpl}
 import org.apache.spark.util.{SystemClock, ThreadUtils}
@@ -68,8 +69,7 @@ private[spark] class KubernetesClusterManager extends ExternalClusterManager wit
     // If/when feature steps are executed in client mode, they should instead take care of this,
     // and this code should be removed.
     if (!sc.conf.contains(KUBERNETES_EXECUTOR_POD_NAME_PREFIX)) {
-      sc.conf.set(KUBERNETES_EXECUTOR_POD_NAME_PREFIX,
-        KubernetesConf.getResourceNamePrefix(sc.conf.get("spark.app.name")))
+      sc.conf.set(KUBERNETES_EXECUTOR_POD_NAME_PREFIX, getResourceNamePrefix(getAppName(sc.conf)))
     }
 
     val kubernetesClient = SparkKubernetesClientFactory.createKubernetesClient(
