@@ -325,7 +325,7 @@ object SparkEnv extends Logging {
     // Have to assign trackerEndpoint after initialization as MapOutputTrackerEndpoint
     // requires the MapOutputTracker itself
     mapOutputTracker.trackerEndpoint = registerOrLookupEndpoint(MapOutputTracker.ENDPOINT_NAME,
-      new MapOutputTrackerMasterEndpoint(
+      externalShuffleStorageManager.getMapOutputTrackerMasterEndpoint(
         rpcEnv, mapOutputTracker.asInstanceOf[MapOutputTrackerMaster], conf))
 
     // Let the user specify short names for shuffle managers
@@ -496,5 +496,13 @@ object SparkEnv extends Logging {
       "Hadoop Properties" -> hadoopProperties,
       "System Properties" -> otherProperties,
       "Classpath Entries" -> classPaths)
+  }
+
+  import java.util.ServiceLoader
+  import org.apache.spark.ess.ExternalShuffleStorageManager
+  lazy val externalShuffleStorageManager: ExternalShuffleStorageManager = {
+    val loader = Utils.getContextOrSparkClassLoader
+    ServiceLoader.load(classOf[ExternalShuffleStorageManager], loader)
+      .asScala.headOption.getOrElse(new ExternalShuffleStorageManager {})
   }
 }

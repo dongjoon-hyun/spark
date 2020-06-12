@@ -617,7 +617,7 @@ private[spark] class BlockManager(
    */
   override def getLocalBlockData(blockId: BlockId): ManagedBuffer = {
     if (blockId.isShuffle) {
-      shuffleManager.shuffleBlockResolver.getBlockData(blockId)
+      SparkEnv.externalShuffleStorageManager.read(shuffleManager.shuffleBlockResolver, blockId)
     } else {
       getLocalBytes(blockId) match {
         case Some(blockData) =>

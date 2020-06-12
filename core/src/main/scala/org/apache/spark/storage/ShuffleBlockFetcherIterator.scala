@@ -294,7 +294,7 @@ final class ShuffleBlockFetcherIterator(
       blockManager.hostLocalDirManager != null && blockManager.hostLocalDirManager.isDefined
 
     for ((address, blockInfos) <- blocksByAddress) {
-      if (address.executorId == blockManager.blockManagerId.executorId) {
+      if (Seq("external", blockManager.blockManagerId.executorId).contains(address.executorId)) {
         checkBlockSizes(blockInfos)
         val mergedBlockInfos = mergeContinuousShuffleBlockIdsIfNeeded(
           blockInfos.map(info => FetchBlockInfo(info._1, info._2, info._3)), doBatchFetch)
@@ -612,7 +612,7 @@ final class ShuffleBlockFetcherIterator(
           }
 
           val in = try {
-            buf.createInputStream()
+            org.apache.spark.SparkEnv.externalShuffleStorageManager.createInputStream(buf, blockId)
           } catch {
             // The exception could only be throwed by local shuffle block
             case e: IOException =>

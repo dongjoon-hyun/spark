@@ -93,6 +93,7 @@ private[spark] class IndexShuffleBlockResolver(
       if (!file.delete()) {
         logWarning(s"Error deleting data ${file.getPath()}")
       }
+      SparkEnv.externalShuffleStorageManager.delete(conf, file)
     }
 
     file = getIndexFile(shuffleId, mapId)
@@ -100,6 +101,7 @@ private[spark] class IndexShuffleBlockResolver(
       if (!file.delete()) {
         logWarning(s"Error deleting index ${file.getPath()}")
       }
+      SparkEnv.externalShuffleStorageManager.delete(conf, file)
     }
   }
 
@@ -206,6 +208,12 @@ private[spark] class IndexShuffleBlockResolver(
           if (dataTmp != null && dataTmp.exists() && !dataTmp.renameTo(dataFile)) {
             throw new IOException("fail to rename file " + dataTmp + " to " + dataFile)
           }
+          val manager = SparkEnv.externalShuffleStorageManager
+          val indexSize = indexFile.length
+          val dataSize = if (dataFile.exists) dataFile.length else 0
+          manager.upload(conf, indexFile, dataFile, () => {
+            manager.reportBlockStatus(blockManager, shuffleId, mapId, indexSize, dataSize)
+          })
         }
       }
     } finally {

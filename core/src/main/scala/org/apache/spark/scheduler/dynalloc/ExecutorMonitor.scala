@@ -149,6 +149,15 @@ private[spark] class ExecutorMonitor(
     nextTimeout.set(Long.MinValue)
   }
 
+  def clearBlockInfo(executorId: String): Unit = {
+    logInfo(s"Clear block information at $executorId")
+    val tracker = executors.get(executorId)
+    tracker.hasActiveShuffle = false
+    tracker.cachedBlocks.clear()
+    tracker.timeoutAt = Long.MinValue
+    nextTimeout.set(Long.MinValue)
+  }
+
   def executorCount: Int = executors.size()
 
   def executorCountWithResourceProfile(id: Int): Int = {
