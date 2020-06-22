@@ -28,6 +28,7 @@ import com.spotify.docker.client._
 import com.spotify.docker.client.exceptions.ImageNotFoundException
 import com.spotify.docker.client.messages.{ContainerConfig, HostConfig, PortBinding}
 import org.scalatest.concurrent.Eventually
+import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.SpanSugar._
 
 import org.apache.spark.sql.test.SharedSparkSession
@@ -95,6 +96,7 @@ abstract class DockerJDBCIntegrationSuite extends SharedSparkSession with Eventu
 
   protected val dockerIp = DockerUtils.getDockerIp()
   val db: DatabaseOnDocker
+  val connectionTimeout: Timeout = timeout(1.minute)
 
   private var docker: DockerClient = _
   protected var externalPort: Int = _
@@ -155,7 +157,7 @@ abstract class DockerJDBCIntegrationSuite extends SharedSparkSession with Eventu
       docker.startContainer(containerId)
       jdbcUrl = db.getJdbcUrl(dockerIp, externalPort)
       var conn: Connection = null
-      eventually(timeout(2.minutes), interval(1.second)) {
+      eventually(connectionTimeout, interval(1.second)) {
         conn = getConnection()
       }
       // Run any setup queries:

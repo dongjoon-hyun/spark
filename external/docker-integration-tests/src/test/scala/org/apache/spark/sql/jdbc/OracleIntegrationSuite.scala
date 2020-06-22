@@ -21,6 +21,9 @@ import java.math.BigDecimal
 import java.sql.{Connection, Date, Timestamp}
 import java.util.{Properties, TimeZone}
 
+import org.scalatest.concurrent.PatienceConfiguration.Timeout
+import org.scalatest.time.SpanSugar._
+
 import org.apache.spark.sql.{Row, SaveMode}
 import org.apache.spark.sql.execution.{RowDataSourceScanExec, WholeStageCodegenExec}
 import org.apache.spark.sql.execution.datasources.LogicalRelation
@@ -37,10 +40,7 @@ import org.apache.spark.tags.DockerTest
  * 2. export ORACLE_DOCKER_IMAGE_NAME=$ORACLE_DOCKER_IMAGE_NAME
  *    Pull oracle $ORACLE_DOCKER_IMAGE_NAME image - docker pull $ORACLE_DOCKER_IMAGE_NAME
  * 3. Start docker - sudo service docker start
- * 4. The timeout and interval parameter to be increased to a high value for oracle test in
- *    DockerJDBCIntegrationSuite.scala (Locally tested with 20 min timeout and 1 sec interval
- *    then executed successfully).
- * 5. Run spark test - ./build/sbt -Pdocker-integration-tests
+ * 4. Run spark test - ./build/sbt -Pdocker-integration-tests
  *    "test-only org.apache.spark.sql.jdbc.OracleIntegrationSuite"
  *
  * An actual sequence of commands to run the test is as follows
@@ -70,6 +70,8 @@ class OracleIntegrationSuite extends DockerJDBCIntegrationSuite with SharedSpark
     override def getJdbcUrl(ip: String, port: Int): String =
       s"jdbc:oracle:thin:system/oracle@//$ip:$port/xe"
   }
+
+  override val connectionTimeout: Timeout = timeout(10.minutes)
 
   override def dataPreparation(conn: Connection): Unit = {
     // In 18.4.0 Express Edition auto commit is enabled by default.
