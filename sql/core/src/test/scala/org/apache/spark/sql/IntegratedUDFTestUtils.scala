@@ -197,7 +197,7 @@ object IntegratedUDFTestUtils extends SQLHelper {
 
   lazy val pythonExec: String = {
     val pythonExec = sys.env.getOrElse(
-      "PYSPARK_DRIVER_PYTHON", sys.env.getOrElse("PYSPARK_PYTHON", "python3"))
+      "PYSPARK_DRIVER_PYTHON", sys.env.getOrElse("PYSPARK_PYTHON", "python3.6"))
     if (TestUtils.testCommandAvailable(pythonExec)) {
       pythonExec
     } else {
