@@ -273,7 +273,7 @@ jobs:
     name: Java 11 build
     runs-on: ubuntu-latest
     container:
-      image: ubuntu:18.10
+      image: dongjoon/apache-spark-github-action-image:1
     steps:
     - name: Checkout Spark repository
       uses: actions/checkout@v2
