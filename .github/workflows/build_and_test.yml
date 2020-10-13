@@ -273,7 +273,7 @@ jobs:
     name: Java 11 build
     runs-on: ubuntu-latest
     container:
-      image: ubuntu:latest
+      image: ubuntu:18.10
     steps:
     - name: Checkout Spark repository
       uses: actions/checkout@v2
