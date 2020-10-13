@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       # Pre-built image including Python 3.6/3.8 and Python packages
-      image: dongjoon/apache-spark-github-action-image:4
+      image: dongjoon/apache-spark-github-action-image:5
     strategy:
       fail-fast: false
       matrix:
@@ -91,9 +91,6 @@ jobs:
       CONDA_PREFIX: /usr/share/miniconda
       GITHUB_PREV_SHA: ${{ github.event.before }}
       GITHUB_INPUT_BRANCH: ${{ github.event.inputs.target }}
-    defaults:
-      run:
-        working-directory: /__w
     steps:
     - name: Checkout Spark repository
       uses: actions/checkout@v2
@@ -170,6 +167,7 @@ jobs:
         # Hive tests become flaky when running in parallel as it's too intensive.
         if [[ "$MODULES_TO_TEST" == "hive" ]]; then export SERIAL_SBT_TESTS=1; fi
         mkdir -p ~/.m2
+        cd /__w/spark/spark
         ./dev/run-tests --parallelism 2 --modules "$MODULES_TO_TEST" --included-tags "$INCLUDED_TAGS" --excluded-tags "$EXCLUDED_TAGS"
         rm -rf ~/.m2/repository/org/apache/spark
     - name: Upload test results to report
