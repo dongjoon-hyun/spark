@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       # Pre-built image including Python packages
-      image: dongjoon/apache-spark-github-action-image:13
+      image: dongjoon/apache-spark-github-action-image:14
     strategy:
       fail-fast: false
       matrix:
