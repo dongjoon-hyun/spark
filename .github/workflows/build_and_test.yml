@@ -19,8 +19,8 @@ jobs:
     name: "Build modules: ${{ matrix.modules }} ${{ matrix.comment }} (JDK ${{ matrix.java }}, ${{ matrix.hadoop }}, ${{ matrix.hive }})"
     runs-on: ubuntu-latest
     container:
-      # Pre-built image including Python 3.6/3.8 and Python packages
-      image: dongjoon/apache-spark-github-action-image:11
+      # Pre-built image including Python packages
+      image: dongjoon/apache-spark-github-action-image:12
     strategy:
       fail-fast: false
       matrix:
@@ -130,14 +130,6 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: ${{ matrix.java }}
-    - name: Install PyPy3 Python packages
-      if: contains(matrix.modules, 'pyspark')
-      # PyArrow is not supported in PyPy yet, see ARROW-2651.
-      # TODO(SPARK-32247): scipy installation with PyPy fails for an unknown reason.
-      run: |
-        # PyPy does not have xmlrunner
-        pypy3 -m pip install numpy pandas
-        pypy3 -m pip list
     # SparkR
     - name: Install R 4.0
       uses: r-lib/actions/setup-r@v1
