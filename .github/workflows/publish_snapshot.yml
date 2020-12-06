@@ -1,12 +1,8 @@
 name: Publish Snapshot
 
-# on:
-#   schedule:
-#   - cron:  '0 0 * * *'
 on:
-  pull_request:
-    branches:
-    - master
+  schedule:
+  - cron:  '0 0 * * *'
 
 jobs:
   publish-snapshot:
