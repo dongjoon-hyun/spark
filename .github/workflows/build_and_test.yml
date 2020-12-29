@@ -285,6 +285,8 @@ jobs:
   lint:
     name: Linters, licenses, dependencies and documentation generation
     runs-on: ubuntu-20.04
+    container:
+      image: dongjoon/apache-spark-github-action-image:20201025
     steps:
     - name: Checkout Spark repository
       uses: actions/checkout@v2
@@ -315,10 +317,6 @@ jobs:
         key: docs-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           docs-maven-
-    - name: Install Java 8
-      uses: actions/setup-java@v1
-      with:
-        java-version: 8
     - name: Install Python 3.6
       uses: actions/setup-python@v2
       with:
@@ -348,6 +346,8 @@ jobs:
       run: ./dev/lint-java
     - name: Python linter
       run: ./dev/lint-python
+    - name: R linter
+      run: ./dev/lint-r
     - name: License test
       run: ./dev/check-license
     - name: Dependencies test
