@@ -646,7 +646,7 @@ def main():
         os.environ["PATH"] = "/home/anaconda/envs/py36/bin:" + os.environ.get("PATH")
     else:
         # else we're running locally or GitHub Actions.
-        build_tool = "sbt"
+        build_tool = os.environ.get("BUILD_TOOL", "sbt")
         hadoop_version = os.environ.get("HADOOP_PROFILE", "hadoop3.2")
         hive_version = os.environ.get("HIVE_PROFILE", "hive2.3")
         if "GITHUB_ACTIONS" in os.environ:

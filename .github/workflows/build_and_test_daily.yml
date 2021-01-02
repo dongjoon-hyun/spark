@@ -84,6 +84,7 @@ jobs:
       GITHUB_PREV_SHA: ${{ github.event.before }}
       GITHUB_INPUT_BRANCH: ${{ github.event.inputs.target }}
       SCALA_PROFILE: ${{ matrix.scala }}
+      BUILD_TOOL: maven
     steps:
     - name: Checkout Spark repository
       uses: actions/checkout@v2
