@@ -657,6 +657,8 @@ def main():
     print("[info] Using build tool", build_tool, "with Hadoop profile", hadoop_version,
           "and Hive profile", hive_version, "under environment", test_env)
     extra_profiles = get_hadoop_profiles(hadoop_version) + get_hive_profiles(hive_version)
+    if os.environ.get("SCALA_PROFILE"):
+        extra_profiles += ["-P" + os.environ.get("SCALA_PROFILE")]
 
     changed_modules = []
     changed_files = []
