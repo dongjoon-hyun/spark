@@ -1067,7 +1067,7 @@ object TestSettings {
       .map { case (k,v) => s"-D$k=$v" }.toSeq,
     javaOptions in Test += "-ea",
     // SPARK-29282 This is for consistency between JDK8 and JDK11.
-    javaOptions in Test ++= "-Xmx4g -Xss4m -XX:+UseParallelGC -XX:-UseDynamicNumberOfGCThreads"
+    javaOptions in Test ++= "-Xmx1g -Xss4m -XX:+UseParallelGC -XX:-UseDynamicNumberOfGCThreads"
       .split(" ").toSeq,
     javaOptions += "-Xmx3g",
     // Exclude tags defined in a system property

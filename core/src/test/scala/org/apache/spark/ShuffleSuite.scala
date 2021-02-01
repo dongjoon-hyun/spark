@@ -419,6 +419,19 @@ abstract class ShuffleSuite extends SparkFunSuite with Matchers with LocalSparkC
 
     manager.unregisterShuffle(0)
   }
+
+  test("Shuffle compression codec memory leak") {
+    val myConf = conf.clone()
+      .setAppName("test")
+      .setMaster("local")
+      .set("spark.io.compression.codec", "zstd")
+    resetSparkContext()
+    sc = new SparkContext(myConf)
+    (1 to 10000).foreach { i =>
+      sc.parallelize(0 until i).map(i => (i / 4, i)).groupByKey().collect()
+    }
+  }
+
 }
 
 /**
