@@ -20,6 +20,7 @@ package org.apache.spark.sql.execution
 import org.scalatest.BeforeAndAfterAll
 
 import org.apache.spark.{SparkConf, SparkFunSuite}
+import org.apache.spark.internal.config.IO_COMPRESSION_CODEC
 import org.apache.spark.internal.config.UI.UI_ENABLED
 import org.apache.spark.sql._
 import org.apache.spark.sql.execution.adaptive._
@@ -63,6 +64,7 @@ class CoalesceShufflePartitionsSuite extends SparkFunSuite with BeforeAndAfterAl
         .setMaster("local[*]")
         .setAppName("test")
         .set(UI_ENABLED, false)
+        .set(IO_COMPRESSION_CODEC.key, "lz4")
         .set(SQLConf.SHUFFLE_PARTITIONS.key, "5")
         .set(SQLConf.COALESCE_PARTITIONS_INITIAL_PARTITION_NUM.key, "5")
         .set(SQLConf.ADAPTIVE_EXECUTION_ENABLED.key, "true")
