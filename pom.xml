@@ -141,7 +141,7 @@
     <!-- After 10.17.1.0, the minimum required version is JDK19 -->
     <derby.version>10.16.1.1</derby.version>
     <parquet.version>1.13.1</parquet.version>
-    <orc.version>1.9.2</orc.version>
+    <orc.version>2.0.0-SNAPSHOT</orc.version>
     <orc.classifier>shaded-protobuf</orc.classifier>
     <jetty.version>9.4.53.v20231009</jetty.version>
     <jakartaservlet.version>4.0.3</jakartaservlet.version>
@@ -350,6 +350,21 @@
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
+    </repository>
+    <repository>
+      <id>apache.snapshots</id>
+      <name>Apache Development Snapshot Repository</name>
+      <url>https://repository.apache.org/content/repositories/snapshots/</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>orc-format</id>
+      <url>https://repository.apache.org/content/repositories/orgapacheorc-1076/</url>
     </repository>
   </repositories>
   <pluginRepositories>
@@ -2584,11 +2599,22 @@
 
       <dependency>
         <groupId>org.apache.orc</groupId>
+        <artifactId>orc-format</artifactId>
+        <version>1.0.0</version>
+        <classifier>${orc.classifier}</classifier>
+        <scope>${orc.deps.scope}</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.orc</groupId>
         <artifactId>orc-core</artifactId>
         <version>${orc.version}</version>
         <classifier>${orc.classifier}</classifier>
         <scope>${orc.deps.scope}</scope>
         <exclusions>
+          <exclusion>
+            <groupId>org.apache.orc</groupId>
+            <artifactId>orc-format</artifactId>
+          </exclusion>
           <exclusion>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
