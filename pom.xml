@@ -2616,6 +2616,10 @@
             <artifactId>orc-format</artifactId>
           </exclusion>
           <exclusion>
+            <groupId>com.aayushatharva.brotli4j</groupId>
+            <artifactId>brotli4j</artifactId>
+          </exclusion>
+          <exclusion>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
           </exclusion>
