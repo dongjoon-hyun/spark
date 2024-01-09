@@ -2,17 +2,23 @@ OpenJDK 64-Bit Server VM 21.0.1+12-LTS on Mac OS X 12.7.2
 Intel(R) Xeon(R) CPU E5-1680 v2 @ 3.00GHz
 TPCDS Snappy:                             Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-q1                                                  799            978         156          0.6        1732.8       1.0X
+q1                                                  985           1009          33          0.5        2135.2       1.0X
 
 OpenJDK 64-Bit Server VM 21.0.1+12-LTS on Mac OS X 12.7.2
 Intel(R) Xeon(R) CPU E5-1680 v2 @ 3.00GHz
 TPCDS Snappy:                             Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-q2                                                 1436           1499          88          1.6         643.6       1.0X
+q2                                                 1430           1475          64          1.6         640.6       1.0X
 
 OpenJDK 64-Bit Server VM 21.0.1+12-LTS on Mac OS X 12.7.2
 Intel(R) Xeon(R) CPU E5-1680 v2 @ 3.00GHz
 TPCDS Snappy:                             Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-q3                                                  533            584          39          5.6         179.5       1.0X
+q3                                                  570            654          86          5.2         191.9       1.0X
+
+OpenJDK 64-Bit Server VM 21.0.1+12-LTS on Mac OS X 12.7.2
+Intel(R) Xeon(R) CPU E5-1680 v2 @ 3.00GHz
+TPCDS Snappy:                             Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
+------------------------------------------------------------------------------------------------------------------------
+q4                                                 9962          10698        1041          0.5        1911.4       1.0X
 
