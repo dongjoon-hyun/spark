@@ -332,8 +332,8 @@ abstract class OrcSuite
 
   test("SPARK-21839: Add SQL config for ORC compression") {
     val conf = spark.sessionState.conf
-    // Test if the default of spark.sql.orc.compression.codec is snappy
-    assert(new OrcOptions(Map.empty[String, String], conf).compressionCodec == SNAPPY.name())
+    // Test if the default of spark.sql.orc.compression.codec is zstd
+    assert(new OrcOptions(Map.empty[String, String], conf).compressionCodec == ZSTD.name())
 
     // OrcOptions's parameters have a higher priority than SQL configuration.
     // `compression` -> `orc.compression` -> `spark.sql.orc.compression.codec`

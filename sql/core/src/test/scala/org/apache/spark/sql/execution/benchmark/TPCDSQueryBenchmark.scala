@@ -74,7 +74,7 @@ object TPCDSQueryBenchmark extends SqlBasedBenchmark with Logging {
     tables.map { tableName =>
       spark.sql(s"DROP TABLE IF EXISTS $tableName")
       val options = Map("path" -> s"$dataLocation/$tableName")
-      spark.catalog.createTable(tableName, "parquet", tableColumns(tableName), options)
+      spark.catalog.createTable(tableName, "orc", tableColumns(tableName), options)
       // Recover partitions but don't fail if a table is not partitioned.
       Try {
         spark.sql(s"ALTER TABLE $tableName RECOVER PARTITIONS")
