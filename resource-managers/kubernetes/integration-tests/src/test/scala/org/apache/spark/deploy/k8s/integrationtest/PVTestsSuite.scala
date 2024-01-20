@@ -19,7 +19,6 @@ package org.apache.spark.deploy.k8s.integrationtest
 import scala.jdk.CollectionConverters._
 
 import io.fabric8.kubernetes.api.model._
-import io.fabric8.kubernetes.api.model.storage.StorageClassBuilder
 import org.scalatest.concurrent.{Eventually, PatienceConfiguration}
 import org.scalatest.time.{Milliseconds, Span}
 
