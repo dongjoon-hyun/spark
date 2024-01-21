@@ -170,29 +170,21 @@ private[spark] trait PVTestsSuite { k8sSuite: KubernetesSuite =>
     }
   }
 
-  test("PVs with local storage", k8sTestTag, pvTestTag) {
+  test("PVs with local storage - driver", k8sTestTag, pvTestTag) {
     assume(this.getClass.getSimpleName == "KubernetesSuite")
     sparkAppConf
       .set(s"spark.kubernetes.driver.volumes.persistentVolumeClaim.data.mount.path",
         CONTAINER_MOUNT_PATH)
       .set(s"spark.kubernetes.driver.volumes.persistentVolumeClaim.data.options.claimName",
         PVC_NAME)
-      .set(s"spark.kubernetes.executor.volumes.persistentVolumeClaim.data.mount.path",
-        CONTAINER_MOUNT_PATH)
-      .set(s"spark.kubernetes.executor.volumes.persistentVolumeClaim.data.options.claimName",
-        PVC_NAME)
     val file = Utils.createTempFile(FILE_CONTENTS, HOST_PATH)
     try {
       setupLocalStorage()
-      runDFSReadWriteAndVerifyCompletion(
+      runMiniReadWriteAndVerifyCompletion(
         FILE_CONTENTS.split(" ").length,
         driverPodChecker = (driverPod: Pod) => {
           doBasicDriverPodCheck(driverPod)
           checkPVs(driverPod, file)
-        },
-        executorPodChecker = (executorPod: Pod) => {
-          doBasicExecutorPodCheck(executorPod)
-          checkPVs(executorPod, file)
         },
         appArgs = Array(s"$CONTAINER_MOUNT_PATH/$file", s"$CONTAINER_MOUNT_PATH"),
         interval = Some(PV_TESTS_INTERVAL)
