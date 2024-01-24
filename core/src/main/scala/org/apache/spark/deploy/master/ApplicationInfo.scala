@@ -22,12 +22,16 @@ import java.util.Date
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
+import com.esotericsoftware.kryo.DefaultSerializer
+import com.esotericsoftware.kryo.serializers.JavaSerializer
+
 import org.apache.spark.deploy.ApplicationDescription
 import org.apache.spark.resource.{ResourceInformation, ResourceProfile, ResourceUtils}
 import org.apache.spark.resource.ResourceProfile.DEFAULT_RESOURCE_PROFILE_ID
 import org.apache.spark.rpc.RpcEndpointRef
 import org.apache.spark.util.Utils
 
+@DefaultSerializer(classOf[JavaSerializer])
 private[spark] class ApplicationInfo(
     val startTime: Long,
     val id: String,

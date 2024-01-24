@@ -19,10 +19,14 @@ package org.apache.spark.deploy.master
 
 import java.util.Date
 
+import com.esotericsoftware.kryo.DefaultSerializer
+import com.esotericsoftware.kryo.serializers.JavaSerializer
+
 import org.apache.spark.deploy.DriverDescription
 import org.apache.spark.resource.ResourceInformation
 import org.apache.spark.util.Utils
 
+@DefaultSerializer(classOf[JavaSerializer])
 private[deploy] class DriverInfo(
     val startTime: Long,
     val id: String,

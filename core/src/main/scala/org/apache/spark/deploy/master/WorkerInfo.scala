@@ -19,6 +19,9 @@ package org.apache.spark.deploy.master
 
 import scala.collection.mutable
 
+import com.esotericsoftware.kryo.DefaultSerializer
+import com.esotericsoftware.kryo.serializers.JavaSerializer
+
 import org.apache.spark.resource.{ResourceAllocator, ResourceInformation, ResourceRequirement}
 import org.apache.spark.resource.ResourceAmountUtils.ONE_ENTIRE_RESOURCE
 import org.apache.spark.rpc.RpcEndpointRef
@@ -46,6 +49,7 @@ private[spark] case class WorkerResourceInfo(name: String, addresses: Seq[String
   }
 }
 
+@DefaultSerializer(classOf[JavaSerializer])
 private[spark] class WorkerInfo(
     val id: String,
     val host: String,

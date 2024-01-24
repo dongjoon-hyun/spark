@@ -146,7 +146,7 @@ class PersistenceEngineSuite extends SparkFunSuite {
 
   private def testPersistenceEngine(
       conf: SparkConf, persistenceEngineCreator: Serializer => PersistenceEngine): Unit = {
-    val serializer = new JavaSerializer(conf)
+    val serializer = new KryoSerializer(conf)
     val persistenceEngine = persistenceEngineCreator(serializer)
     try {
       persistenceEngine.persist("test_1", "test_1_value")
@@ -170,11 +170,13 @@ class PersistenceEngineSuite extends SparkFunSuite {
           id = "test_worker",
           host = "127.0.0.1",
           port = 10000,
-          cores = 0,
-          memory = 0,
+          cores = 12,
+          memory = 10240,
           endpoint = workerEndpoint,
           webUiAddress = "http://localhost:80",
           Map.empty)
+        workerToPersist.coresUsed = 6
+        workerToPersist.memoryUsed = 1024
 
         persistenceEngine.addWorker(workerToPersist)
 
@@ -194,6 +196,12 @@ class PersistenceEngineSuite extends SparkFunSuite {
         assert(workerToPersist.memory === recoveryWorkerInfo.memory)
         assert(workerToPersist.endpoint === recoveryWorkerInfo.endpoint)
         assert(workerToPersist.webUiAddress === recoveryWorkerInfo.webUiAddress)
+        assert(recoveryWorkerInfo.executors != null)
+        assert(recoveryWorkerInfo.drivers != null)
+        assert(recoveryWorkerInfo.state === WorkerState.ALIVE)
+        assert(recoveryWorkerInfo.coresUsed == 0)
+        assert(recoveryWorkerInfo.memoryUsed == 0)
+        assert(workerToPersist.lastHeartbeat < recoveryWorkerInfo.lastHeartbeat)
       } finally {
         testRpcEnv.shutdown()
         testRpcEnv.awaitTermination()
