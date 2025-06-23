@@ -315,6 +315,7 @@ object SparkBuild extends PomBuild {
       "gcs-maven-central-mirror" at "https://maven-central.storage-download.googleapis.com/maven2/",
       DefaultMavenRepository,
       Resolver.mavenLocal,
+      "rc" at "https://repository.apache.org/content/repositories/orgapacheorc-1098/",
       Resolver.file("ivyLocal", file(Path.userHome.absolutePath + "/.ivy2/local"))(Resolver.ivyStylePatterns)
     ),
     externalResolvers := resolvers.value,
