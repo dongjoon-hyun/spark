@@ -2,44 +2,44 @@
 Hive UDAF vs Spark AF
 ================================================================================================
 
-OpenJDK 64-Bit Server VM 21.0.6+7-LTS on Linux 6.8.0-1020-azure
+OpenJDK 64-Bit Server VM 21.0.8+9-LTS on Linux 6.11.0-1018-azure
 AMD EPYC 7763 64-Core Processor
 hive udaf vs spark af:                    Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-hive udaf w/o group by                             3333           3360          28          0.0       50859.2       1.0X
-spark af w/o group by                                22             28           6          3.0         329.6     154.3X
-hive udaf w/ group by                              2189           2201          11          0.0       33404.4       1.5X
-spark af w/ group by w/o fallback                    23             27           5          2.9         343.8     147.9X
-spark af w/ group by w/ fallback                     26             31           5          2.5         402.5     126.4X
+hive udaf w/o group by                             3177           3345          95          0.0       48478.2       1.0X
+spark af w/o group by                                22             30           7          2.9         341.7     141.9X
+hive udaf w/ group by                              2184           2217          19          0.0       33327.3       1.5X
+spark af w/ group by w/o fallback                    24             28           5          2.7         366.3     132.3X
+spark af w/ group by w/ fallback                     27             31           5          2.4         413.5     117.2X
 
 
 ================================================================================================
 ObjectHashAggregateExec vs SortAggregateExec - typed_count
 ================================================================================================
 
-OpenJDK 64-Bit Server VM 21.0.6+7-LTS on Linux 6.8.0-1020-azure
+OpenJDK 64-Bit Server VM 21.0.8+9-LTS on Linux 6.11.0-1018-azure
 AMD EPYC 7763 64-Core Processor
 object agg v.s. sort agg:                 Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-sort agg w/ group by                              26462          26803         483          4.0         252.4       1.0X
-object agg w/ group by w/o fallback                7566           7599          23         13.9          72.2       3.5X
-object agg w/ group by w/ fallback                15156          15556         346          6.9         144.5       1.7X
-sort agg w/o group by                              4040           4062          21         26.0          38.5       6.6X
-object agg w/o group by w/o fallback               3899           3949          37         26.9          37.2       6.8X
+sort agg w/ group by                              23374          23514         198          4.5         222.9       1.0X
+object agg w/ group by w/o fallback                7120           7996         432         14.7          67.9       3.3X
+object agg w/ group by w/ fallback                16110          16372         229          6.5         153.6       1.5X
+sort agg w/o group by                              3930           3963          26         26.7          37.5       5.9X
+object agg w/o group by w/o fallback               3935           4163          99         26.6          37.5       5.9X
 
 
 ================================================================================================
 ObjectHashAggregateExec vs SortAggregateExec - percentile_approx
 ================================================================================================
 
-OpenJDK 64-Bit Server VM 21.0.6+7-LTS on Linux 6.8.0-1020-azure
+OpenJDK 64-Bit Server VM 21.0.8+9-LTS on Linux 6.11.0-1018-azure
 AMD EPYC 7763 64-Core Processor
 object agg v.s. sort agg:                 Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-sort agg w/ group by                                429            449          10          4.9         204.8       1.0X
-object agg w/ group by w/o fallback                 343            351           5          6.1         163.5       1.3X
-object agg w/ group by w/ fallback                  460            483          21          4.6         219.6       0.9X
-sort agg w/o group by                               280            284           4          7.5         133.7       1.5X
-object agg w/o group by w/o fallback                276            283           3          7.6         131.7       1.6X
+sort agg w/ group by                                430            465          14          4.9         204.9       1.0X
+object agg w/ group by w/o fallback                 366            372           4          5.7         174.7       1.2X
+object agg w/ group by w/ fallback                  494            518          17          4.2         235.6       0.9X
+sort agg w/o group by                               297            303           4          7.1         141.5       1.4X
+object agg w/o group by w/o fallback                297            304           5          7.1         141.6       1.4X
 
 
