@@ -2,25 +2,25 @@
 Large Row Benchmark
 ================================================================================================
 
-OpenJDK 64-Bit Server VM 17.0.16+8-LTS on Linux 6.11.0-1018-azure
-AMD EPYC 7763 64-Core Processor
+OpenJDK 64-Bit Server VM 17.0.17+10-LTS on Linux 6.11.0-1018-azure
+Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz
 #rows: 100, #cols: 10, cell: 1.3 MB:      Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-built-in UPPER                                     6654           6673          27          0.0    66538605.7       1.0X
-udf UPPER                                          4565           4652         123          0.0    45651554.1       1.5X
+built-in UPPER                                     7531           7548          24          0.0    75312901.2       1.0X
+udf UPPER                                          5683           5726          61          0.0    56825288.2       1.3X
 
-OpenJDK 64-Bit Server VM 17.0.16+8-LTS on Linux 6.11.0-1018-azure
-AMD EPYC 7763 64-Core Processor
+OpenJDK 64-Bit Server VM 17.0.17+10-LTS on Linux 6.11.0-1018-azure
+Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz
 #rows: 1, #cols: 1, cell: 300.0 MB:       Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-built-in UPPER                                     1514           1515           1          0.0  1514257087.0       1.0X
-udf UPPER                                          1046           1051           6          0.0  1046413719.0       1.4X
+built-in UPPER                                     1695           1700           7          0.0  1695355991.0       1.0X
+udf UPPER                                          1354           1375          30          0.0  1353600602.0       1.3X
 
-OpenJDK 64-Bit Server VM 17.0.16+8-LTS on Linux 6.11.0-1018-azure
-AMD EPYC 7763 64-Core Processor
+OpenJDK 64-Bit Server VM 17.0.17+10-LTS on Linux 6.11.0-1018-azure
+Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz
 #rows: 1, #cols: 200, cell: 1.0 MB:       Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-built-in UPPER                                     1273           1343          99          0.0  1272927771.0       1.0X
-udf UPPER                                          1359           1549         269          0.0  1359033315.0       0.9X
+built-in UPPER                                     1419           1424           7          0.0  1418966367.0       1.0X
+udf UPPER                                          1523           1699         249          0.0  1522885553.0       0.9X
 
 
