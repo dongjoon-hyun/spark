@@ -2,39 +2,39 @@
 Properties Cloning
 ================================================================================================
 
-OpenJDK 64-Bit Server VM 21.0.8+9-LTS on Linux 6.11.0-1018-azure
-AMD EPYC 7763 64-Core Processor
+OpenJDK 64-Bit Server VM 21.0.9+10-LTS on Linux 6.11.0-1018-azure
+Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz
 Empty Properties:                         Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-SerializationUtils.clone                              0              0           0          0.3        3166.0       1.0X
-Utils.cloneProperties                                 0              0           0         11.2          89.0      35.6X
+SerializationUtils.clone                              0              0           0          0.3        3218.0       1.0X
+Utils.cloneProperties                                 0              0           0          9.1         110.0      29.3X
 
-OpenJDK 64-Bit Server VM 21.0.8+9-LTS on Linux 6.11.0-1018-azure
-AMD EPYC 7763 64-Core Processor
+OpenJDK 64-Bit Server VM 21.0.9+10-LTS on Linux 6.11.0-1018-azure
+Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz
 System Properties:                        Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-SerializationUtils.clone                              0              0           0          0.0      163897.0       1.0X
-Utils.cloneProperties                                 0              0           0          0.2        4909.0      33.4X
+SerializationUtils.clone                              0              0           0          0.0      161411.0       1.0X
+Utils.cloneProperties                                 0              0           0          0.1        7047.0      22.9X
 
-OpenJDK 64-Bit Server VM 21.0.8+9-LTS on Linux 6.11.0-1018-azure
-AMD EPYC 7763 64-Core Processor
+OpenJDK 64-Bit Server VM 21.0.9+10-LTS on Linux 6.11.0-1018-azure
+Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz
 Small Properties:                         Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-SerializationUtils.clone                              0              0           0          0.0      239028.0       1.0X
-Utils.cloneProperties                                 0              0           0          0.2        6011.0      39.8X
+SerializationUtils.clone                              0              0           0          0.0      261863.0       1.0X
+Utils.cloneProperties                                 0              0           0          0.2        5977.0      43.8X
 
-OpenJDK 64-Bit Server VM 21.0.8+9-LTS on Linux 6.11.0-1018-azure
-AMD EPYC 7763 64-Core Processor
+OpenJDK 64-Bit Server VM 21.0.9+10-LTS on Linux 6.11.0-1018-azure
+Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz
 Medium Properties:                        Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-SerializationUtils.clone                              1              1           0          0.0      840785.0       1.0X
-Utils.cloneProperties                                 0              0           0          0.0       30567.0      27.5X
+SerializationUtils.clone                              1              1           0          0.0     1012143.0       1.0X
+Utils.cloneProperties                                 0              0           0          0.0       30183.0      33.5X
 
-OpenJDK 64-Bit Server VM 21.0.8+9-LTS on Linux 6.11.0-1018-azure
-AMD EPYC 7763 64-Core Processor
+OpenJDK 64-Bit Server VM 21.0.9+10-LTS on Linux 6.11.0-1018-azure
+Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz
 Large Properties:                         Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-SerializationUtils.clone                              2              2           0          0.0     1587893.0       1.0X
-Utils.cloneProperties                                 0              0           0          0.0       60934.0      26.1X
+SerializationUtils.clone                              2              2           0          0.0     1947474.0       1.0X
+Utils.cloneProperties                                 0              0           0          0.0       59882.0      32.5X
 
 
