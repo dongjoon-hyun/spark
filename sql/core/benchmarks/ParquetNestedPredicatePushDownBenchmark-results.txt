@@ -1,21 +1,21 @@
-OpenJDK 64-Bit Server VM 17.0.16+8-LTS on Linux 6.11.0-1018-azure
-AMD EPYC 7763 64-Core Processor
+OpenJDK 64-Bit Server VM 17.0.17+10-LTS on Linux 6.11.0-1018-azure
+Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz
 Can skip all row groups:                  Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-Without nested predicate Pushdown                  7113           7161          45         14.7          67.8       1.0X
-With nested predicate Pushdown                       60             71           6       1743.6           0.6     118.3X
+Without nested predicate Pushdown                  6560           6610          49         16.0          62.6       1.0X
+With nested predicate Pushdown                       58             75           8       1804.0           0.6     112.9X
 
-OpenJDK 64-Bit Server VM 17.0.16+8-LTS on Linux 6.11.0-1018-azure
-AMD EPYC 7763 64-Core Processor
+OpenJDK 64-Bit Server VM 17.0.17+10-LTS on Linux 6.11.0-1018-azure
+Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz
 Can skip some row groups:                 Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-Without nested predicate Pushdown                  7778           7804          35         13.5          74.2       1.0X
-With nested predicate Pushdown                       46             58           7       2300.6           0.4     170.6X
+Without nested predicate Pushdown                  6863           7065          73         15.3          65.5       1.0X
+With nested predicate Pushdown                       51             64          10       2059.9           0.5     134.8X
 
-OpenJDK 64-Bit Server VM 17.0.16+8-LTS on Linux 6.11.0-1018-azure
-AMD EPYC 7763 64-Core Processor
+OpenJDK 64-Bit Server VM 17.0.17+10-LTS on Linux 6.11.0-1018-azure
+Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz
 Can skip no row groups:                   Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-Without nested predicate Pushdown                 14055          14110          62          7.5         134.0       1.0X
-With nested predicate Pushdown                    14067          14145          75          7.5         134.1       1.0X
+Without nested predicate Pushdown                 13779          13815          19          7.6         131.4       1.0X
+With nested predicate Pushdown                    13781          13816          29          7.6         131.4       1.0X
 
