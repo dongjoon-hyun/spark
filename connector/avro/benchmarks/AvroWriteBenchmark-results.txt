@@ -1,56 +1,56 @@
-OpenJDK 64-Bit Server VM 17.0.16+8-LTS on Linux 6.11.0-1018-azure
+OpenJDK 64-Bit Server VM 17.0.17+10-LTS on Linux 6.11.0-1018-azure
 AMD EPYC 7763 64-Core Processor
 Avro writer benchmark:                    Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-Output Single Int Column                           1630           1632           4          9.7         103.6       1.0X
-Output Single Double Column                        1690           1732          60          9.3         107.4       1.0X
-Output Int and String Column                       3267           3277          14          4.8         207.7       0.5X
-Output Partitions                                  3014           3027          18          5.2         191.6       0.5X
-Output Buckets                                     3786           3838          74          4.2         240.7       0.4X
+Output Single Int Column                           1702           1751          69          9.2         108.2       1.0X
+Output Single Double Column                        1641           1669          39          9.6         104.3       1.0X
+Output Int and String Column                       3314           3396         116          4.7         210.7       0.5X
+Output Partitions                                  3074           3112          54          5.1         195.5       0.6X
+Output Buckets                                     3900           3907           9          4.0         248.0       0.4X
 
-OpenJDK 64-Bit Server VM 17.0.16+8-LTS on Linux 6.11.0-1018-azure
+OpenJDK 64-Bit Server VM 17.0.17+10-LTS on Linux 6.11.0-1018-azure
 AMD EPYC 7763 64-Core Processor
 Avro compression with different codec:    Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-BZIP2:                                           132013         132044          45          0.0     1320126.5       1.0X
-DEFLATE:                                           6551           6565          20          0.0       65507.6      20.2X
-UNCOMPRESSED:                                      5077           5095          25          0.0       50773.1      26.0X
-SNAPPY:                                            4750           4754           6          0.0       47498.4      27.8X
-XZ:                                               43062          43195         187          0.0      430623.4       3.1X
-ZSTANDARD:                                         4866           4875          13          0.0       48658.9      27.1X
+BZIP2:                                           133234         133849         869          0.0     1332340.0       1.0X
+DEFLATE:                                           6584           6613          41          0.0       65843.8      20.2X
+UNCOMPRESSED:                                      5146           5150           5          0.0       51464.6      25.9X
+SNAPPY:                                            4765           4771           9          0.0       47645.5      28.0X
+XZ:                                               44742          44812          99          0.0      447419.9       3.0X
+ZSTANDARD:                                         4830           4846          23          0.0       48296.9      27.6X
 
-OpenJDK 64-Bit Server VM 17.0.16+8-LTS on Linux 6.11.0-1018-azure
+OpenJDK 64-Bit Server VM 17.0.17+10-LTS on Linux 6.11.0-1018-azure
 AMD EPYC 7763 64-Core Processor
 Avro deflate with different levels:       Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-DEFLATE: deflate.level=1                           4833           4891          83          0.0       48325.8       1.0X
-DEFLATE: deflate.level=3                           4814           4815           2          0.0       48143.0       1.0X
-DEFLATE: deflate.level=5                           6409           6503         132          0.0       64094.4       0.8X
-DEFLATE: deflate.level=7                           6465           6484          27          0.0       64647.7       0.7X
-DEFLATE: deflate.level=9                           6805           6808           4          0.0       68050.2       0.7X
+DEFLATE: deflate.level=1                           4836           4841           8          0.0       48357.2       1.0X
+DEFLATE: deflate.level=3                           4842           4897          77          0.0       48420.0       1.0X
+DEFLATE: deflate.level=5                           6508           6595         123          0.0       65079.6       0.7X
+DEFLATE: deflate.level=7                           6544           6568          34          0.0       65440.7       0.7X
+DEFLATE: deflate.level=9                           6863           6872          14          0.0       68625.0       0.7X
 
-OpenJDK 64-Bit Server VM 17.0.16+8-LTS on Linux 6.11.0-1018-azure
+OpenJDK 64-Bit Server VM 17.0.17+10-LTS on Linux 6.11.0-1018-azure
 AMD EPYC 7763 64-Core Processor
 Avro xz with different levels:            Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-XZ: xz.level=1                                    11743          11841         138          0.0      117432.0       1.0X
-XZ: xz.level=3                                    21455          21455           0          0.0      214552.1       0.5X
-XZ: xz.level=5                                    40359          40688         465          0.0      403590.5       0.3X
-XZ: xz.level=7                                    58295          58471         249          0.0      582952.8       0.2X
-XZ: xz.level=9                                   131053         135036        5632          0.0     1310532.2       0.1X
+XZ: xz.level=1                                    11870          11946         108          0.0      118702.6       1.0X
+XZ: xz.level=3                                    22331          22404         104          0.0      223305.4       0.5X
+XZ: xz.level=5                                    42178          42247          99          0.0      421777.1       0.3X
+XZ: xz.level=7                                    60794          61326         753          0.0      607936.3       0.2X
+XZ: xz.level=9                                   149714         150170         646          0.0     1497135.9       0.1X
 
-OpenJDK 64-Bit Server VM 17.0.16+8-LTS on Linux 6.11.0-1018-azure
+OpenJDK 64-Bit Server VM 17.0.17+10-LTS on Linux 6.11.0-1018-azure
 AMD EPYC 7763 64-Core Processor
 Avro zstandard with different levels:                            Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 -----------------------------------------------------------------------------------------------------------------------------------------------
-ZSTANDARD: zstandard.level=1                                              4732           4823         128          0.0       47324.6       1.0X
-ZSTANDARD: zstandard.level=1, zstandard.bufferPool.enabled=true           4695           4725          43          0.0       46945.7       1.0X
-ZSTANDARD: zstandard.level=3                                              4807           4849          60          0.0       48066.2       1.0X
-ZSTANDARD: zstandard.level=3, zstandard.bufferPool.enabled=true           4751           4760          13          0.0       47505.5       1.0X
-ZSTANDARD: zstandard.level=5                                              5075           5092          25          0.0       50749.7       0.9X
-ZSTANDARD: zstandard.level=5, zstandard.bufferPool.enabled=true           5015           5024          13          0.0       50154.6       0.9X
-ZSTANDARD: zstandard.level=7                                              5348           5372          34          0.0       53484.2       0.9X
-ZSTANDARD: zstandard.level=7, zstandard.bufferPool.enabled=true           5282           5293          14          0.0       52824.0       0.9X
-ZSTANDARD: zstandard.level=9                                              6270           6275           7          0.0       62703.9       0.8X
-ZSTANDARD: zstandard.level=9, zstandard.bufferPool.enabled=true           6082           6095          19          0.0       60819.1       0.8X
+ZSTANDARD: zstandard.level=1                                              4693           4701          11          0.0       46928.6       1.0X
+ZSTANDARD: zstandard.level=1, zstandard.bufferPool.enabled=true           4619           4658          54          0.0       46193.3       1.0X
+ZSTANDARD: zstandard.level=3                                              4769           4783          20          0.0       47686.1       1.0X
+ZSTANDARD: zstandard.level=3, zstandard.bufferPool.enabled=true           4686           4688           4          0.0       46855.5       1.0X
+ZSTANDARD: zstandard.level=5                                              4993           5024          43          0.0       49933.9       0.9X
+ZSTANDARD: zstandard.level=5, zstandard.bufferPool.enabled=true           4990           5013          33          0.0       49896.9       0.9X
+ZSTANDARD: zstandard.level=7                                              5372           5417          63          0.0       53724.0       0.9X
+ZSTANDARD: zstandard.level=7, zstandard.bufferPool.enabled=true           5390           5399          14          0.0       53896.8       0.9X
+ZSTANDARD: zstandard.level=9                                              6026           6049          32          0.0       60263.9       0.8X
+ZSTANDARD: zstandard.level=9, zstandard.bufferPool.enabled=true           6013           6121         152          0.0       60132.0       0.8X
 
