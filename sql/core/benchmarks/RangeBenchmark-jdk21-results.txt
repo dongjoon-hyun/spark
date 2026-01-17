@@ -2,14 +2,14 @@
 range
 ================================================================================================
 
-OpenJDK 64-Bit Server VM 21.0.8+9-LTS on Linux 6.11.0-1018-azure
+OpenJDK 64-Bit Server VM 21.0.9+10-LTS on Linux 6.11.0-1018-azure
 AMD EPYC 7763 64-Core Processor
 range:                                    Best Time(ms)   Avg Time(ms)   Stdev(ms)    Rate(M/s)   Per Row(ns)   Relative
 ------------------------------------------------------------------------------------------------------------------------
-full scan                                         10123          10247         204         51.8          19.3       1.0X
-limit after range                                    47             49           2      11123.3           0.1     214.8X
-filter after range                                 1016           1058          40        515.9           1.9      10.0X
-count after range                                   352            356           5       1491.2           0.7      28.8X
-count after limit after range                        54             61           7       9769.4           0.1     188.6X
+full scan                                         10205          10308         146         51.4          19.5       1.0X
+limit after range                                    44             47           3      11800.5           0.1     229.7X
+filter after range                                 1011           1025          20        518.8           1.9      10.1X
+count after range                                   356            377          22       1471.4           0.7      28.6X
+count after limit after range                        52             54           3      10171.1           0.1     198.0X
 
 
