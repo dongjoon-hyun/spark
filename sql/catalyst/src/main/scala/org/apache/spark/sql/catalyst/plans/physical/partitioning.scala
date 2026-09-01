@@ -751,7 +751,11 @@ case class KeyedPartitioning(
         }
 
       case o @ OrderedDistribution(_) if SQLConf.get.v2BucketingAllowSorting =>
-        o.areAllClusterKeysMatched(expressions)
+        // A global sort is only correct when every row of partition i orders before every row
+        // of partition j for i < j. An unknown-keyed partitioning cannot promise that: the
+        // one-side shuffle routes out-of-set rows to arbitrary partitions by hash (see
+        // `mayContainUnknownPartitionKeys`), so the sort must keep its range exchange.
+        !mayContainUnknownPartitionKeys && o.areAllClusterKeysMatched(expressions)
 
       case _ =>
         false

@@ -6145,6 +6145,46 @@ class KeyGroupedPartitioningSuite
     }
   }
 
+  test("SPARK-59153: SPJ: one-side shuffle with out-of-set keys must not satisfy a global sort") {
+    // a: keyed on id, declared keys {1, 2}. t: v1 parquet, ids 1..8, so ids 3..8 are out-of-set.
+    // The one-side shuffle routes the out-of-set rows to arbitrary partitions by hash (see
+    // `KeyGroupedPartitioner`), so the partitions are no longer range-ordered on id. The join
+    // output's unknown-keyed partitioning must not satisfy the ORDER BY's OrderedDistribution;
+    // the global sort has to keep its range exchange, or the query silently returns the
+    // partitions' contents concatenated in hash order.
+    createTable("a", columns, Array(identity("id")))
+    sql("INSERT INTO testcat.ns.a VALUES (1, 'a1', NULL), (2, 'a2', NULL)")
+
+    withTable("t") {
+      sql("CREATE TABLE t (id INT, data STRING) USING parquet")
+      sql("INSERT INTO t VALUES (1, 't1'), (2, 't2'), (3, 't3'), (4, 't4'), " +
+        "(5, 't5'), (6, 't6'), (7, 't7'), (8, 't8')")
+
+      val query =
+        """
+          |SELECT id
+          |FROM (SELECT t.id AS id FROM testcat.ns.a a RIGHT OUTER JOIN t ON a.id = t.id)
+          |ORDER BY id
+          |""".stripMargin
+      val expected = (1 to 8).map(Row(_))
+
+      withSQLConf(
+          SQLConf.V2_BUCKETING_SHUFFLE_ENABLED.key -> "true",
+          SQLConf.V2_BUCKETING_SORTING_ENABLED.key -> "true",
+          SQLConf.ADAPTIVE_EXECUTION_ENABLED.key -> "false") {
+        val df = sql(query)
+        val rangeShuffles = collect(df.queryExecution.executedPlan) {
+          case s: ShuffleExchangeExec
+              if s.outputPartitioning.isInstanceOf[physical.RangePartitioning] => s
+        }
+        assert(rangeShuffles.nonEmpty,
+          s"the global sort must keep its range exchange over the unknown-keyed one-side " +
+            s"shuffle output, got: ${df.queryExecution.executedPlan}")
+        checkAnswer(df, expected)
+      }
+    }
+  }
+
 }
 
 /**
