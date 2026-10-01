@@ -20,6 +20,8 @@ package org.apache.spark.sql.execution.datasources.parquet
 import java.util.{Optional, PrimitiveIterator}
 
 import scala.collection.mutable.ArrayBuffer
+import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.duration._
 import scala.language.implicitConversions
 
 import org.apache.parquet.bytes.BytesInput
@@ -33,6 +35,7 @@ import org.apache.parquet.io.api.Binary
 import org.apache.parquet.schema.{MessageType, MessageTypeParser}
 import org.apache.parquet.schema.PrimitiveType.PrimitiveTypeName
 
+import org.apache.spark.SparkException
 import org.apache.spark.memory.MemoryMode
 import org.apache.spark.sql.Row
 import org.apache.spark.sql.catalyst.InternalRow
@@ -43,6 +46,7 @@ import org.apache.spark.sql.execution.vectorized.ColumnVectorUtils
 import org.apache.spark.sql.test.SharedSparkSession
 import org.apache.spark.sql.types._
 import org.apache.spark.util.ArrayImplicits._
+import org.apache.spark.util.ThreadUtils
 import org.apache.spark.util.collection.Utils.createArray
 
 /**
@@ -524,6 +528,55 @@ class ParquetVectorizedSuite extends ParquetTest with SharedSparkSession {
     }
   }
 
+  test("definition levels that end before the page value count") {
+    // The page claims 4 values of a nullable column, but its definition levels, e.g. cut short by
+    // a wrong length in the page, hold only 2: an RLE run with header 2 << 1 = 4 and level 1. The
+    // reader used to loop forever on such a page, since it only moves to the next page once all
+    // the values of the current page are read.
+    val schema = MessageTypeParser.parseMessageType("message root { optional int32 a; }")
+    Seq(false, true).foreach { pageV2 =>
+      val pageStore = writeRawPage(schema, pageV2, valueCount = 4,
+        repLevels = Array.emptyByteArray, defLevels = Array[Byte](4, 1),
+        valueEncoding = Encoding.PLAIN, values = new Array[Byte](4 * 4))
+      withClue(s"page v2: $pageV2") {
+        checkRleDataEndsEarly(schema, pageStore)
+      }
+    }
+  }
+
+  test("repetition levels that end before the page value count") {
+    // As above, for the repetition levels of a list column: an RLE run of two 0s, i.e. two lists
+    // of one element, while the page claims 4 values. The definition levels are an RLE run of
+    // four 3s, i.e. four non-null elements.
+    val schema = MessageTypeParser.parseMessageType(
+      """message root {
+        |  optional group _1 (LIST) {
+        |    repeated group list {
+        |      optional int32 a;
+        |    }
+        |  }
+        |}""".stripMargin)
+    Seq(false, true).foreach { pageV2 =>
+      val pageStore = writeRawPage(schema, pageV2, valueCount = 4,
+        repLevels = Array[Byte](4, 0), defLevels = Array[Byte](8, 3),
+        valueEncoding = Encoding.PLAIN, values = new Array[Byte](4 * 4))
+      withClue(s"page v2: $pageV2") {
+        checkRleDataEndsEarly(schema, pageStore)
+      }
+    }
+  }
+
+  test("RLE encoded booleans that end before the page value count") {
+    // The RLE encoded values of a required boolean column, a 4-byte length followed by an RLE run
+    // of two trues, hold only 2 of the 4 values the page claims. Reading them used to loop
+    // forever.
+    val schema = MessageTypeParser.parseMessageType("message root { required boolean a; }")
+    val pageStore = writeRawPage(schema, pageV2 = true, valueCount = 4,
+      repLevels = Array.emptyByteArray, defLevels = Array.emptyByteArray,
+      valueEncoding = Encoding.RLE, values = Array[Byte](2, 0, 0, 0, 4, 1))
+    checkRleDataEndsEarly(schema, pageStore)
+  }
+
   truncateTypeTest("primitive type", IntegerType, LongType, IntegerType)
 
   truncateTypeTest("basic struct",
@@ -826,6 +879,40 @@ class ParquetVectorizedSuite extends ParquetTest with SharedSparkSession {
     columnWriterStore.flush()
   }
 
+  /**
+   * Writes a single data page of the only column in `schema` from the given raw repetition level,
+   * definition level and value bytes, and returns a page store with `valueCount` rows. A v1 page
+   * prefixes the levels with their 4-byte length, unless their bit width is 0.
+   */
+  private def writeRawPage(
+      schema: MessageType,
+      pageV2: Boolean,
+      valueCount: Int,
+      repLevels: Array[Byte],
+      defLevels: Array[Byte],
+      valueEncoding: Encoding,
+      values: Array[Byte]): PageReadStore = {
+    val cd = schema.getColumns.get(0)
+    val stats: Statistics[_] = Statistics.createStats(cd.getPrimitiveType)
+    val pageStore = new MemPageStore(valueCount)
+    val pageWriter = pageStore.getPageWriter(cd)
+    if (pageV2) {
+      pageWriter.writePageV2(valueCount, 0, valueCount, BytesInput.from(repLevels),
+        BytesInput.from(defLevels), valueEncoding, BytesInput.from(values), stats)
+    } else {
+      def withLength(levels: Array[Byte], maxLevel: Int): BytesInput = if (maxLevel == 0) {
+        BytesInput.empty()
+      } else {
+        BytesInput.concat(BytesInput.fromInt(levels.length), BytesInput.from(levels))
+      }
+      pageWriter.writePage(
+        BytesInput.concat(withLength(repLevels, cd.getMaxRepetitionLevel),
+          withLength(defLevels, cd.getMaxDefinitionLevel), BytesInput.from(values)),
+        valueCount, valueCount, stats, Encoding.RLE, Encoding.RLE, valueEncoding)
+    }
+    pageStore
+  }
+
   private def checkAnswer(
       totalRowCount: Int,
       fileSchema: MessageType,
@@ -861,6 +948,36 @@ class ParquetVectorizedSuite extends ParquetTest with SharedSparkSession {
         s"at index $i, expected row: $expectedRowStr doesn't match actual row: $actualRowStr"
       })
       i += 1
+    }
+  }
+
+  /**
+   * Checks that reading the first batch of `pageStore` fails because RLE encoded data in the page,
+   * its levels or values, ends before all the values are read. The read runs on a daemon thread
+   * with a timeout, so that a reader that loops forever, without checking for interrupts, fails
+   * the test instead of hanging it.
+   */
+  private def checkRleDataEndsEarly(schema: MessageType, pageStore: PageReadStore): Unit = {
+    val numRows = pageStore.getRowCount.toInt
+    val executor = ThreadUtils.newDaemonSingleThreadExecutor("corrupt-page-reader")
+    try {
+      val future = Future {
+        val recordReader = new VectorizedParquetRecordReader(
+          DateTimeUtils.getZoneId("EST"), "CORRECTED", "UTC", "CORRECTED", "UTC", true, numRows)
+        try {
+          recordReader.initialize(schema, schema,
+            TestParquetRowGroupReader(Seq(TestPageReadStore(pageStore, Seq(0L)))), numRows)
+          recordReader.nextKeyValue()
+        } finally {
+          recordReader.close()
+        }
+      }(ExecutionContext.fromExecutor(executor))
+      val e = intercept[SparkException](ThreadUtils.awaitResult(future, 1.minute)).getCause
+      assert(e.isInstanceOf[ParquetDecodingException], e)
+      assert(e.getMessage ===
+        "Corrupted RLE data: reading past the end of the encoded values")
+    } finally {
+      executor.shutdownNow()
     }
   }
 

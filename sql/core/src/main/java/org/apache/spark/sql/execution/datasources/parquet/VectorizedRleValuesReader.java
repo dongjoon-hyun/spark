@@ -208,7 +208,7 @@ public final class VectorizedRleValuesReader extends ValuesReader
     int leftInPage = state.valuesToReadInPage;
 
     while (leftInBatch > 0 && leftInPage > 0) {
-      if (currentCount == 0 && !readNextGroup()) break;
+      if (currentCount == 0) readNextGroup();
       int n = Math.min(leftInBatch, Math.min(leftInPage, this.currentCount));
 
       long rangeStart = state.currentRangeStart();
@@ -318,7 +318,7 @@ public final class VectorizedRleValuesReader extends ValuesReader
     int leftInPage = state.valuesToReadInPage;
 
     while (leftInBatch > 0 && leftInPage > 0) {
-      if (currentCount == 0 && !readNextGroup()) break;
+      if (currentCount == 0) readNextGroup();
       int n = Math.min(leftInBatch, Math.min(leftInPage, this.currentCount));
 
       long rangeStart = state.currentRangeStart();
@@ -431,7 +431,7 @@ public final class VectorizedRleValuesReader extends ValuesReader
       values, nulls, valuesReused, valueReader, updater);
 
     while ((leftInBatch > 0 || !state.lastListCompleted) && leftInPage > 0) {
-      if (currentCount == 0 && !readNextGroup()) break;
+      if (currentCount == 0) readNextGroup();
 
       // Values to read in the current RLE/PACKED block, must be <= what's left in the page
       int valuesLeftInBlock = Math.min(leftInPage, currentCount);
@@ -637,7 +637,7 @@ public final class VectorizedRleValuesReader extends ValuesReader
     int n = total;
     int initialValueOffset = state.valueOffset;
     while (n > 0) {
-      if (currentCount == 0 && !readNextGroup()) break;
+      if (currentCount == 0) readNextGroup();
       int num = Math.min(n, this.currentCount);
       readValuesN(num, state, defLevels, values, nulls, valueReader, updater);
       state.levelOffset += num;
@@ -731,7 +731,7 @@ public final class VectorizedRleValuesReader extends ValuesReader
       VectorizedValuesReader valuesReader,
       ParquetVectorUpdater updater) {
     while (n > 0) {
-      if (currentCount == 0 && !readNextGroup()) break;
+      if (currentCount == 0) readNextGroup();
       int num = Math.min(n, this.currentCount);
       switch (mode) {
         case RLE -> {
@@ -764,7 +764,7 @@ public final class VectorizedRleValuesReader extends ValuesReader
   public void readIntegers(int total, WritableColumnVector c, int rowId) {
     int left = total;
     while (left > 0) {
-      if (currentCount == 0 && !readNextGroup()) break;
+      if (currentCount == 0) readNextGroup();
       int n = Math.min(left, this.currentCount);
       switch (mode) {
         case RLE -> c.putInts(rowId, n, currentValue);
@@ -976,12 +976,13 @@ public final class VectorizedRleValuesReader extends ValuesReader
   }
 
   /**
-   * Reads the next group. Returns false if no more group available.
+   * Reads the next group. Callers only read a group when they need more values, and never more
+   * values than the page has, so running out of encoded data means the page is corrupted.
    */
-  private boolean readNextGroup() {
+  private void readNextGroup() {
     if (in.available() <= 0) {
-      currentCount = 0;
-      return false;
+      throw new ParquetDecodingException(
+        "Corrupted RLE data: reading past the end of the encoded values");
     }
 
     try {
@@ -1016,8 +1017,6 @@ public final class VectorizedRleValuesReader extends ValuesReader
     } catch (IOException e) {
       throw new ParquetDecodingException("Failed to read from input stream", e);
     }
-
-    return true;
   }
 
   /**
@@ -1026,7 +1025,7 @@ public final class VectorizedRleValuesReader extends ValuesReader
   private void skipValues(int n) {
     int left = n;
     while (left > 0) {
-      if (this.currentCount == 0 && !readNextGroup()) break;
+      if (this.currentCount == 0) readNextGroup();
       int num = Math.min(left, this.currentCount);
       switch (mode) {
         case RLE -> {}
