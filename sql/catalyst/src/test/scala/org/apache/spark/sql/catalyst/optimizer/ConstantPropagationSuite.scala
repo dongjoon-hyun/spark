@@ -25,7 +25,7 @@ import org.apache.spark.sql.catalyst.plans.PlanTest
 import org.apache.spark.sql.catalyst.plans.logical.{Filter, LocalRelation, LogicalPlan}
 import org.apache.spark.sql.catalyst.rules.RuleExecutor
 import org.apache.spark.sql.internal.SQLConf
-import org.apache.spark.sql.types.DoubleType
+import org.apache.spark.sql.types.{DoubleType, StringType}
 
 /**
  * Unit tests for constant propagation in expressions.
@@ -253,6 +253,33 @@ class ConstantPropagationSuite extends PlanTest {
         .where(If(columnC > columnB, Literal(true), divide(columnC) > Literal(0.0)) &&
           columnB === 0).analyze
       comparePlans(Optimize.execute(conditional), conditional)
+    }
+  }
+
+  test("SPARK-61033: Do not propagate a constant into an operand that guards an expression " +
+      "that can fail") {
+    withSQLConf(SQLConf.ANSI_ENABLED.key -> "true") {
+      def divide(e: Expression): Expression = Divide(Literal(10.0), e.cast(DoubleType))
+
+      // `a < 3` and `a > 3` decide whether the division runs. With `a` replaced, it would run on a
+      // row with `a` = 1 and `c` = 0.
+      val nested = testRelation.where(
+        (columnA < 3 || (columnA > 3 && divide(columnC) > Literal(1.0))) && columnA === 5).analyze
+      comparePlans(Optimize.execute(nested), nested)
+
+      // With `k` replaced, the map lookup can be NULL on a row with another `k`.
+      val maps = LocalRelation($"k".string, Symbol("m").map(StringType, DoubleType), $"x".int)
+      val inComparison = maps.where(Coalesce(Seq(GetMapValue($"m", $"k"), divide($"x"))) >
+        Literal(0.0) && $"k" === "a").analyze
+      comparePlans(Optimize.execute(inComparison), inComparison)
+
+      // A conjunct guards the ones after it as well. It is rewritten, and the equality goes first.
+      val conjunct = Optimize.execute(testRelation
+        .where(columnA > 0 && divide(columnC) > Literal(0.0) && columnA === 1).analyze)
+      comparePlans(conjunct,
+        testRelation.where(columnA === 1 && divide(columnC) > Literal(0.0)).analyze)
+      val Filter(conjunctCondition, _) = conjunct
+      assert(splitConjunctivePredicates(conjunctCondition).head.sql == "(a = 1)")
     }
   }
 }
