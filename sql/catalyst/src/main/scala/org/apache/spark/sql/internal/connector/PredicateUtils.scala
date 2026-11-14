@@ -164,7 +164,8 @@ private[sql] object PredicateUtils {
    * characters, which is how Spark sends a comparison of a CHAR(n) column, into an IN on the
    * stored values of the column. The read-side padding of a value equals such a literal iff the
    * value is the literal without its trailing spaces, followed by none up to all of those spaces.
-   * A value longer than n is not padded, so it does not match either way.
+   * A value longer than n is not padded, so it does not match either way. A literal without
+   * trailing spaces matches only itself, so it becomes an equality, as for any other column.
    */
   private def charReadSidePaddingToV1(predicate: Predicate): Option[Filter] = {
     predicate.children().toSeq match {
@@ -178,14 +179,17 @@ private[sql] object PredicateUtils {
             prefixes.map(n - _.numChars() + 1L).sum > MAX_CHAR_PADDING_IN_VALUES) {
           return None
         }
-        val in = In(col.toString, prefixes.flatMap { p =>
+        val attr = col.toString
+        val values = prefixes.flatMap { p =>
           (0 to n - p.numChars()).map(p.toString + " " * _)
-        }.toArray[Any])
+        }.toArray[Any]
+        val matches = if (values.length == 1) EqualTo(attr, values.head) else In(attr, values)
         predicate.name() match {
+          case "<=>" if values.length == 1 => Some(EqualNullSafe(attr, values.head))
           // NULL <=> literal is false, not NULL, which differs under a NOT
-          case "<=>" => Some(And(IsNotNull(col.toString), in))
-          case "<>" => Some(Not(in))
-          case _ => Some(in)
+          case "<=>" => Some(And(IsNotNull(attr), matches))
+          case "<>" => Some(Not(matches))
+          case _ => Some(matches)
         }
       case _ => None
     }

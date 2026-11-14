@@ -320,12 +320,20 @@ class V2PredicateSuite extends SparkFunSuite {
     assert(toV1("<=>", 3, str("a  ")) === Some(V1And(IsNotNull("c"), in)))
     assert(toV1("IN", 3, str("a  "), str("bc ")) ===
       Some(In("c", Array("a", "a ", "a  ", "bc", "bc "))))
+    // U+1F600 is one character, but 4 bytes in UTF-8 and 2 chars in UTF-16
+    val e = new String(Character.toChars(0x1F600))
+    assert(toV1("=", 3, str(e + "  ")) === Some(In("c", Array(e, e + " ", e + "  "))))
+    // a literal without trailing spaces matches only itself
+    assert(toV1("=", 2, str("ab")) === Some(EqualTo("c", "ab")))
+    assert(toV1("<=>", 2, str("ab")) === Some(EqualNullSafe("c", "ab")))
 
     // not converted: a non-binary collation, a literal not padded to the length, too many values
     assert(toV1("=", 3, str("a  ", StringType("UTF8_LCASE"))).isEmpty)
     assert(toV1("=", 3, str("a")).isEmpty)
     assert(toV1("=", 255, str(" " * 255)).get.asInstanceOf[In].values.length === 256)
     assert(toV1("=", 256, str(" " * 256)).isEmpty)
+    // the bound applies to the total: each literal needs 200 values, together 400
+    assert(toV1("IN", 200, str("a" + " " * 199), str("b" + " " * 199)).isEmpty)
   }
 
   test("IsNull") {
